@@ -103,10 +103,6 @@ router.get('/book-appointment/:id',auth,async (req,res)=>
                 
             }
        }
-       
-       console.log(teacher.slots)
-       console.log(arr)
-
         // const newArr=arr.filter((e)=>
         // {
         //     return teacher.slots.time!=e
@@ -114,21 +110,30 @@ router.get('/book-appointment/:id',auth,async (req,res)=>
 
         const newArr=[]
 
-        for(var i=0;i<teacher.slots;i++)
+        for(var i=0;i<teacher.slots.length;i++)
         {
-                for(var j=0;j<arr.length;i++)
+            let teach=teacher.slots[i].time;
+
+            let flag=false   
+
+                for(var j=0;j<arr.length;j++)
                 {
-                    if(teacher.slots[i].time!==arr[j])
+                    if(teach===arr[j])
                     {
-                        newArr.push(teacher.slots[i].time)
+                        flag=true
+                        break
                     }
+                    
+                }
+                if(!flag)
+                {
+                        newArr.push(teach)
                 }
         }
 
 
         console.log(newArr);
-        
- 
+    
         // if(appointment.length!==0)
         // {
             
@@ -166,6 +171,7 @@ router.get('/book-appointment/:id',auth,async (req,res)=>
         res.render('teacher',{
             teacher,
             student,
+            newArr
         })
 
         // }

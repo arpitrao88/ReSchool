@@ -31,19 +31,15 @@
 
 <h4 style="text-decoration: underline;">Timings </h4>
 <br>
-{{#if available}}
+
+
+
 <div class="mx-2 my-2">
-    {{#each available}}
-        <a href='/appointment/{{../teacher._id}}/{{@index}}' id='anchor' class="btn btn-primary mx-2">{{this.time}}</a>
+    {{#each newArr}}
+        <a href='/appointment/{{../teacher._id}}/{{@index}}' id='anchor' class="btn btn-primary mx-2">{{this}}</a>
     {{/each}}
 </div>
-{{else}}
-<div class="mx-2 my-2">
-    {{#each teacher.slots}}
-        <a href='/appointment/{{../teacher._id}}/{{@index}}' id='anchor' class="btn btn-primary mx-2">{{this.time}}</a>
-    {{/each}}
-</div>
-{{/if}}
+
 
 <br>
 
