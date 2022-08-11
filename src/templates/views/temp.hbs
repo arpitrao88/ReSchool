@@ -1,0 +1,74 @@
+{{#each teacher}}
+   <div class="card mx-4" style="width: 18rem;">
+     <div class="card-body">
+       <h5 class="card-title">{{this.name}}</h5>
+       <p class="card-text">{{this.subject}}</p>
+            <div class="btn-group my-4">
+                  {{#if this.slots}}
+                <select class="form-select form-select-sm" id='time' aria-label=".form-select-sm example">
+                  <option selected>Select Time</option>
+                  {{#each this.slots}}
+                  <option value='{{@index}}'>{{time}}</option>
+                  {{/each}}
+                </select>
+                  {{else}}
+                  {{!-- <p style="color: red;">Teacher is Booked for Today!</p> --}}
+                  <option selected style="color: #0d6efd;">Not Available</option>
+                  {{/if}}
+            </div>
+       <p>{{this._id}}</p>
+        <a href='/select-teacher/{{this._id}}/{{../student._id}}' id='anchor' class="btn btn-primary">Book Appointment</a>
+            <form action="/appointments">
+            {{#if this.availability}}
+            <button type="submit" class="btn btn-primary" id='btn' onclick="avail('{{this._id}}')" >Book Appointment</button>
+            {{/if}}
+        </form>
+     </div>
+   </div>
+{{/each}}
+
+
+{{#each teacher}}
+   <div class="card mx-4" style="width: 18rem;">
+     <div class="card-body">
+       <h5 class="card-title">{{this.name}}</h5>
+       <p class="card-text">{{this.subject}}</p>
+            <div class="btn-group my-4">
+                <select class="form-select form-select-sm" id='time' aria-label=".form-select-sm example">
+                  <option selected>Select Time</option>
+                  {{#each this.slots}}
+                  <option value='{{@index}}'>{{time}}</option>
+                  {{/each}}
+                </select>
+            </div>
+       <p>{{this._id}}</p>
+        {{!-- <a href='/select-teacher/{{this._id}}/{{../student._id}}' id='anchor' class="btn btn-primary">Book Appointment</a> --}}
+          {{!-- <form action="/appointments"> --}}
+            <button type="submit" id='btn' onclick="avail('{{this._id}}')" >Book Appointment</button>
+        {{!-- </form> --}}
+     </div>
+   </div>
+{{/each}}
+
+
+{{#each teacher}}
+   <div class="card mx-4" style="width: 18rem;">
+     <div class="card-body">
+       <h5 class="card-title">{{this.name}}</h5>
+       <p class="card-text">{{this.subject}}</p>
+            <div class="btn-group my-4">
+                <select class="form-select form-select-sm" id='time' aria-label=".form-select-sm example">
+                  <option selected>Select Time</option>
+                  {{#each this.slots}}
+                  <option value='{{@index}}'>{{time}}</option>
+                  {{/each}}
+                </select>
+            </div>
+       <p>{{this._id}}</p>
+        {{!-- <a href='/select-teacher/{{this._id}}/{{../student._id}}' id='anchor' class="btn btn-primary">Book Appointment</a> --}}
+          {{!-- <form action="/appointments"> --}}
+            <button type="submit" id='btn' onclick="avail('{{this._id}}')" >Book Appointment</button>
+        {{!-- </form> --}}
+     </div>
+   </div>
+{{/each}}

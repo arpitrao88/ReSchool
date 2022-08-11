@@ -27,22 +27,17 @@
 <div class="container my-4 text-center" style="display: flex;">
 
 
+
 {{#each teacher}}
    <div class="card mx-4" style="width: 18rem;">
      <div class="card-body">
        <h5 class="card-title">{{this.name}}</h5>
        <p class="card-text">{{this.subject}}</p>
-            <div class="btn-group my-4">
-                <select class="form-select form-select-sm" id='time' aria-label=".form-select-sm example">
-                  <option selected>Select Time</option>
-                  {{#each this.slots}}
-                  <option value='{{@index}}'>{{time}}</option>
-                  {{/each}}
-                </select>
-            </div>
        <p>{{this._id}}</p>
-        {{!-- <a href='/select-teacher/{{this._id}}/{{../student._id}}' id='anchor' class="btn btn-primary">Book Appointment</a> --}}
-    <button id='btn' onclick="avail('{{this._id}}')" >Book Appointment</button>
+        <a href="/book-appointment/{{this.id}}" id='anchor' class="btn btn-primary">Book Appointment</a>
+          {{!-- <form action="/appointments"> --}}
+            {{!-- <button type="submit" id='btn' onclick="avail('{{this._id}}')" >Book Appointment</button> --}}
+        {{!-- </form> --}}
      </div>
    </div>
 {{/each}}
@@ -95,14 +90,15 @@ async function avail(teacherid)
           "Content-Type" : "application/json"
         },
         body:JSON.stringify({
-            name,
+
             id,
             slot:result
 
         })
       })
-
       console.log(response)
+
+
 
 
 }

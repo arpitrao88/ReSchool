@@ -61,8 +61,13 @@ const studentSchema=new mongoose.Schema({
     {
         type:mongoose.Schema.Types.ObjectId,
         ref:'Teacher'
+    },
+    slots:[{
+    slot:{
+        type:String
     }
-
+            }]
+        
 })
 
 studentSchema.methods.generateAuthToken=async function()
@@ -75,10 +80,10 @@ studentSchema.statics.findByCredentials=async(email,password)=>
 {
     const student= await Student.findOne({email:email})
 
-
     if(!student)
     {
         throw new Error("No Such student exists!")
+        // return {success: false, message: 'Successfully authennn'}yaha pe aise error handle karna hain
     }
 
     const isMatch=await bcrypt.compare(password,student.password)

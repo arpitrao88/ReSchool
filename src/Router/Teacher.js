@@ -27,7 +27,11 @@ router.post('/add-slots',async (req,res)=>
     try{
         
         const teacher=await Teacher.findOne({_id:req.body.id})
-        teacher.slots.push({time:req.body.time})
+        // for(var i=0;i<teacher.slots.length;i++)
+        // {
+            // console.log(teacher.slots)
+            // }
+            teacher.slots.push({time:req.body.time})
         await teacher.save()
         res.status(200).send(teacher)
     }

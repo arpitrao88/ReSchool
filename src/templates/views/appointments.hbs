@@ -26,27 +26,51 @@
 
 <br>
 <br>
+{{!-- {{#each appointments as |item i|}} --}}
+
+{{#each arr}}
 
 <div class="container text-center" id='appointment_details' style="border: 1px solid grey;">
 
 <h4 style="text-decoration: underline;">Appointment Details </h4>
 <br>
 
-<p>Teacher: {{student.teacher.name}}</p>
-<p>Subject: {{student.teacher.subject}}</p>
+<p>Teacher: {{this.teacher.name}}</p>
+<p>Subject: {{this.teacher.subject}}</p>
+ {{!-- {{#with (lookup ../appointments @index)}}
+            {{slot.time}}
+  {{/with}} --}}
+
+<p>
+  {{#each this.slots}}
+  {{slot}}
+  <br>
+  {{/each}}
+</p>
+
+<br>
 <br>
 <h5>Make Sure To Reach On Time!</h5>
 
-
-
+<div class="container text-center my-4" id='msg'>
+            <a href='/cancel-appointment/' id='anchor' class="btn btn-primary">Cancel Appointment</a>
 </div>
+
+
+
+
+<br>
+</div>
+<br>
+{{/each}}
+
 
 <br>
 
-<h1 id='resetmsg'>{{reset}}</h1>
+{{!-- <h1 id='resetmsg'>{{reset}}</h1>
 <div class="container text-center" id='msg'>
             <a href='/cancel-appointment/' id='anchor' class="btn btn-primary">Cancel Appointment</a>
-</div>
+</div> --}}
 
 
 </div>

@@ -1,6 +1,7 @@
 const router=require('express').Router()
 const Student=require('../models/student')
 const Teacher=require('../models/teacher')
+const Appointment=require('../models/appointments')
 const auth=require('../middleware/auth')
 
 
@@ -38,6 +39,7 @@ router.post('/student-sign-up',async (req,res)=>
     {
 
         const student=new Student(req.body)
+
         await student.save()
         // const token=await student.generateAuthToken()   
         // // student.tokens.push(token)
@@ -79,12 +81,76 @@ router.post('/student-login',async (req,res)=>
         
     }
 })
+
+router.get('/book-appointment/:id',auth,async (req,res)=>
+{
+    try {
+        const student=await Student.findById(req.student._id)
+        const teacher=await Teacher.findById(req.params.id)
+        const appointment=await Appointment.find({student:req.student._id})
+        // console.log(teacher)
+        // console.log(appointment.length)
+        // console.log(appointment)
+ 
+        if(appointment.length!==0)
+        {
+            
+        // const appointment_slots=[...appointment[0].slots]
+        const teacher_slots=teacher.slots
+        
+        // console.log(appointment_slots)
+        // console.log(teacher_slots)
+
+        for(var i=0;i<teacher_slots.length;i++)
+        {
+            for(var j=0;j<appointment.length;j++)
+            {
+                if(teacher_slots[i].time==appointment.slots[j].slot)
+                 {
+                    teacher_slots.splice(i,1)
+                 }
+            }
+        }
+        const available=teacher_slots
+        console.log(available);
+        
+
+        res.render('teacher',{
+            teacher,
+            student,
+            available
+        })
+
+        }
+        else
+        {
+
+        res.render('teacher',{
+            teacher,
+            student,
+        })
+
+        }
+
+
+
+
+        
+        // res.render('teacher',{
+        //     teacher,
+        //     student,
+        // })
+    } catch (error) {
+        res.status(400).send(error.message)
+    }
+})
+
 router.get('/home',auth,async (req,res)=>
 {
     try{
 
 
-        const teacher=await Teacher.find({availability:true})
+        const teacher=await Teacher.find()
         // const teacher=await Teacher.find()
         // // console.log(teacher.teacher);
         // const teacherwithno=teacher.filter((teacher)=>teacher.slots.length==0)
@@ -153,55 +219,68 @@ router.get('/students',auth,async(req,res)=>
 
 })
 
-router.post('/select-teacher',auth,async function (req,res)
+router.get('/select-teacher/:id/:slot',auth,async function (req,res)
 {
     try{
-        // console.log(req.body.id)
-        // console.log(req.body.time)
-        const teacher=await Teacher.findOne({_id:req.body._id,availability:true})
-        // // console.log(teacher)
+        // console.log(req.params.id)
+        console.log('START-----'+req.params.slot)
+        const teacher=await Teacher.findOne({_id:req.params.id,availability:true})
+        // console.log(teacher)
         // // console.log(req.params.student)
         if(!teacher)
         {
-            res.status(400).send({message:"Teacher is not available"})
+            // res.status(400).send({message:"Teacher is not available"})
+            return console.log('no teacher')
         }
         // teacher.availability=false;
+
+     
+        const student=await Student.findOne({_id:req.student._id})
+        // console.log(student)
+        // console.log('2-----'+teacher.slots[req.params.slot].time);
+        const slotmsg=teacher.slots[req.params.slot].time;
+        
+        student.teacher=teacher
+        // student.slot=teacher.slots[req.params.slot]
+        student.slots.push({slot:teacher.slots[req.params.slot].time})
+        // console.log(student)
+        await student.save()
+        // console.log(student)
+        await teacher.save()
+       
         if(teacher.slots.length===1)
         {
+
             teacher.availability=false
             // res.status(400).send({message:"Teacher is not available"})
-            teacher.slots.splice(req.body.slot,1)
+            teacher.slots.splice(req.params.slot,1)
             // console.log(teacherUpdate)
             await teacher.save()
         }
         else
         {
-            teacher.slots.splice(req.body.slot,1)
-            // console.log(teacherUpdate)
+        console.log('ELSE1-----'+teacher)
+            teacher.slots.splice(req.params.slot,1)
             await teacher.save()
+            console.log('ELSE2-----'+teacher)
         }
-     
-        const student=await Student.findOne({_id:req.student.id})
-        // // console.log(student)
-        student.teacher=teacher
-        await student.save()
-        await teacher.save()
-        console.log('reached')
         res.render('appointment_page',
-        {Message:'Booked Your Appointment!',
-        teacher,
-        student})
-       
-
+        {
+            student,
+            teacher,
+            slot:slotmsg
+        })
     }
     catch(error)
     {
-        res.status(400).send()
+        res.status(400).send(error.message)
     }
 
 
 
 })
+
+
 
 router.get('/student-appointments',auth,async (req,res)=>
 {
@@ -243,22 +322,34 @@ router.get('/cancel-appointment',auth,async(req,res)=>
 
 })
 
-router.get('/appointments',auth,async (req,res)=>
-{
-    const student=await Student.findOne({_id:req.student._id})
+// router.get('/appointments',auth,async (req,res)=>
+// {
+//     console.log(req.student._id)
+//     const appointments=await Appointment.find({_id:req.student._id})
+//     // console.log(appointments)
 
 
-        await student.populate('teacher')
-        res.render('appointments',{
-            student
-        })
+//         // await student.populate('teacher')
+//         // res.render('appointments',{
+//         //     student
+//         // })
 
 
 
    
 
-})
+// })
 
 
 
 module.exports=router;
+
+
+
+
+
+
+
+
+
+
