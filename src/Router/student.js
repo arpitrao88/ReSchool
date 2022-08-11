@@ -91,46 +91,84 @@ router.get('/book-appointment/:id',auth,async (req,res)=>
         // console.log(teacher)
         // console.log(appointment.length)
         // console.log(appointment)
- 
-        if(appointment.length!==0)
+
+        // console.log(appointment)
+        const arr=[]
+
+       for(var i=0;i<appointment.length;i++)
+       {
+            for(var j=0;j<appointment[i].slots.length;j++)
+            {
+                arr.push(appointment[i].slots[j].slot);
+                
+            }
+       }
+       
+       console.log(teacher.slots)
+       console.log(arr)
+
+        // const newArr=arr.filter((e)=>
+        // {
+        //     return teacher.slots.time!=e
+        // })
+
+        const newArr=[]
+
+        for(var i=0;i<teacher.slots;i++)
         {
+                for(var j=0;j<arr.length;i++)
+                {
+                    if(teacher.slots[i].time!==arr[j])
+                    {
+                        newArr.push(teacher.slots[i].time)
+                    }
+                }
+        }
+
+
+        console.log(newArr);
+        
+ 
+        // if(appointment.length!==0)
+        // {
             
         // const appointment_slots=[...appointment[0].slots]
-        const teacher_slots=teacher.slots
+        // const teacher_slots=teacher.slots
         
-        // console.log(appointment_slots)
-        // console.log(teacher_slots)
+        // // console.log(appointment_slots)
+        // // console.log(teacher_slots)
 
-        for(var i=0;i<teacher_slots.length;i++)
-        {
-            for(var j=0;j<appointment.length;j++)
-            {
-                if(teacher_slots[i].time==appointment.slots[j].slot)
-                 {
-                    teacher_slots.splice(i,1)
-                 }
-            }
-        }
-        const available=teacher_slots
-        console.log(available);
+        // for(var i=0;i<teacher_slots.length;i++)
+        // {
+        //     for(var j=0;j<appointment_slots.length;j++)
+        //     {
+        //         if(teacher_slots[i].time==appointment_slots[j].slot)
+        //          {
+        //             teacher_slots.splice(i,1)
+        //          }
+        //     }
+        // }
+        // await teacher.save()
+        // const available=teacher_slots
+        // console.log(available);
         
+
+        // res.render('teacher',{
+        //     teacher,
+        //     student,
+        //     available
+        // })
+
+        // }
+        // else
+        // {
 
         res.render('teacher',{
             teacher,
             student,
-            available
         })
 
-        }
-        else
-        {
-
-        res.render('teacher',{
-            teacher,
-            student,
-        })
-
-        }
+        // }
 
 
 
