@@ -39,7 +39,6 @@ const teacherSchema=new mongoose.Schema({
         time:
         {
             type:String,
-            required:true,
             unique:true,
             // validate(value)
             // {

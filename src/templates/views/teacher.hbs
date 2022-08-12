@@ -34,11 +34,25 @@
 
 
 
+
+
+{{#if allowed_appointments}}
+
 <div class="mx-2 my-2">
-    {{#each newArr}}
-        <a href='/appointment/{{../teacher._id}}/{{@index}}' id='anchor' class="btn btn-primary mx-2">{{this}}</a>
+    {{#each allowed_appointments}}
+        <a href='/appointment/{{../teacher._id}}/{{@index}}/{{this._id}}' id='anchor' class="btn btn-primary mx-2">{{this.time}}</a>
     {{/each}}
 </div>
+
+{{else}} 
+
+<div class="mx-2 my-2">
+    {{#each teacher.slots}}
+        <a href='/appointment/{{../teacher._id}}/{{@index}}' id='anchor' class="btn btn-primary mx-2">{{this.time}}</a>
+    {{/each}}
+</div>
+
+{{/if}} 
 
 
 <br>

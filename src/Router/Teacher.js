@@ -16,7 +16,7 @@ router.post('/teacher-signup',async (req,res)=>
     }
     catch(error)
     {
-        res.status.send(error)
+        res.status(400).send(error)
     }
     
 
